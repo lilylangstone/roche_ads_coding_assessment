@@ -1,0 +1,15 @@
+Package: descriptiveStats
+Title: Descriptive Statistics Package
+Version: 1.0.0
+Authors@R: person(
+    "Lily", "Langstone-Bolt",
+    email = "lilybolt@mac.com",
+    role = c("aut", "cre")
+    )
+License: MIT
+Description: Provides functions for calculating common descriptive
+    statistics for numeric vectors, including the mean, median, mode,
+    quartiles and interquartile range, with appropriate handling of
+    missing values and edge cases.
+Encoding: UTF-8
+Config/roxygen2/version: 8.0.0
