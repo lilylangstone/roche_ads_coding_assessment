@@ -14,10 +14,10 @@ AE visualisation using `ggplot2`, and creation of a detailed clinical listing.
 question_4_tlg/
 ├── 01_create_ae_summary_table.R
 ├── 02_create_visualizations.R
-├── 03_create_ae_listing.R
+├── 03_create_listings.R
 ├── README.md
 └── output/
     ├── ae_summary_table.html
     ├── ae_severity_distribution.png
     ├── top_10_ae_incidence.png
-    └── ae_listing.html
+    └── ae_listings.html
