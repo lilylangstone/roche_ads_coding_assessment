@@ -23,6 +23,7 @@ pip install -r requirements.txt
 
 ## Running the API
 
+
 ### Option 1: Launcher
 
 The supplied launcher starts the API and opens the interactive API documentation in a browser.
