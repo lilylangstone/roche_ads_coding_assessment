@@ -49,12 +49,47 @@ calc_mode(c(1, 1, 2, 2, 3))   # Expected: 1 and 2
 calc_mode(c(1, 2, 3, 4))      # Expected: NA
 
 # Invalid inputs — expected errors
-calc_mean(c("apple", "banana"))
-calc_median(list(1, 2, 3))
-calc_mode(c(TRUE, FALSE))
-calc_q1(c(1, 2, Inf))
-calc_q3(c(1, 2, -Inf))
-calc_iqr(c("apple", "banana"))
+tryCatch(
+  calc_mean(c("apple", "banana")),
+  error = function(e) {
+    message("Expected error from calc_mean: ", e$message)
+  }
+)
+
+tryCatch(
+  calc_median(list(1, 2, 3)),
+  error = function(e) {
+    message("Expected error from calc_median: ", e$message)
+  }
+)
+
+tryCatch(
+  calc_mode(c(TRUE, FALSE)),
+  error = function(e) {
+    message("Expected error from calc_mode: ", e$message)
+  }
+)
+
+tryCatch(
+  calc_q1(c(1, 2, Inf)),
+  error = function(e) {
+    message("Expected error from calc_q1: ", e$message)
+  }
+)
+
+tryCatch(
+  calc_q3(c(1, 2, -Inf)),
+  error = function(e) {
+    message("Expected error from calc_q3: ", e$message)
+  }
+)
+
+tryCatch(
+  calc_iqr(c("apple", "banana")),
+  error = function(e) {
+    message("Expected error from calc_iqr: ", e$message)
+  }
+)
 
 # Large vector
 large_data <- seq_len(1000000)
