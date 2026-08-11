@@ -36,7 +36,7 @@ result_2 = agent.ask_mock(
     question=(
         "Which subjects experienced headache?"
     ),
-  target_column="AETERM"
+  target_column="AETERM",
   filter_value="HEADACHE"
 )
 
