@@ -8,10 +8,7 @@ API development and a Generative AI clinical data assistant using R and Python.
 ## Repository Structure
 
 Each assessment question is contained within its own folder, with the relevant
-code, data and supporting documentation.## Repository Structure
-
-Each assessment question is contained within its own folder, with the relevant
-code, data, outputs and supporting documentation.
+code, data and supporting documentation.
 
 ```text
 project/
