@@ -17,7 +17,7 @@ The package provides the following functions:
 ## Installation
 
 ```r
-devtools::install("question_1/descriptiveStats")
+devtools::install("question_1/descriptive_stats")
 ```
 
 ## Example

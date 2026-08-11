@@ -3,82 +3,71 @@
 ## Overview
 
 This solution implements a clinical data assistant that translates
-natural-language safety questions into structured queries that can be
-executed against the ADAE dataset using Pandas.
+natural-language safety questions into structured queries that can be executed
+against the ADAE dataset using Pandas.
 
-The intended workflow is:
+The workflow is:
 
-**Natural-language question → Prompt → LLM → Structured output → Parse → Pandas query → Subject results**
+**Natural-language question → Prompt → LLM response → Parse → Pandas query → Subject results**
 
 As permitted by the assessment specification, the LLM response is mocked
-because an external LLM API key is not used. The remaining workflow,
-including prompt construction, schema definition, structured response
-parsing, validation, filtering and subject-level results, is implemented
-and executed in full.
+because an external LLM API key is not used.
 
+Prompt construction, schema definition, structured response parsing,
+validation and Pandas query execution are implemented in full.
 
-## Files
+## Project Structure
 
-- `clinical_data_agent.py` - Main ClinicalTrialDataAgent implementation.
-- `test_agent.py` - Runs three example natural-language queries and prints
-  the results.
-- `adae.csv` - ADAE dataset used by the assistant.
-- `adae_metadata.csv` - Variable names and labels extracted from the
-  labelled `pharmaverseadam::adae` dataset.
-
+```text
+question_6_genai/
+│
+├── data/
+│   ├── adae.csv
+│   └── adae_metadata.csv
+│
+├── programs/
+│   ├── clinical_data_agent.py
+│   └── test_agent.py
+│
+├── README.md
+└── requirements.txt
+```
 
 ## Clinical Schema
 
-The assistant is provided with a subset of clinically relevant ADAE
-variables that a safety reviewer may reasonably reference.
+The assistant is provided with clinically relevant ADAE variables that a
+safety reviewer may reasonably reference.
 
-Rather than manually duplicating the clinical definitions in Python,
-official variable labels are read from `adae_metadata.csv` and used to
-construct the clinical schema.
+Rather than manually duplicating the variable definitions in Python, official
+variable labels are read from `data/adae_metadata.csv` and used to construct
+the clinical schema.
 
-Additional plain-language context is provided only for variables whose
-standard metadata labels may not be sufficiently descriptive for
-natural-language interpretation:
+Additional plain-language context is only provided where the standard metadata
+label may not be sufficiently descriptive for natural-language interpretation.
 
-- `AEDECOD` - standardised adverse event term, useful for questions about
-  a specific condition or event.
-- `AESOC` - body system or organ class associated with the adverse event.
+Observed values for the relevant variables are also obtained directly from
+`data/adae.csv` and supplied to the LLM as additional context.
 
-The schema includes information relating to adverse event terminology,
-severity, seriousness, causality, outcome, treatment, treatment emergence,
-serious event criteria and other clinically relevant AE flags.
-
-
-## Observed Values
-
-For each relevant variable, the assistant obtains the unique observed
-values directly from `adae.csv`.
-
-These values are included in the LLM prompt as additional context. They
-are not treated as restrictions on what may be queried.
-
-For example, a reviewer may ask for adverse events of `FATAL` severity
-even if `FATAL` is not an observed value of `AESEV`. The assistant can
-still construct and execute the query, which will correctly return zero
-matching subjects.
-
+Observed values do not restrict what can be queried. For example, a reviewer
+can request adverse events of `FATAL` severity even when `FATAL` is not an
+observed value of `AESEV`. The resulting query is still valid and will return
+zero matching subjects.
 
 ## LLM Implementation
 
-The `ClinicalTrialDataAgent` constructs a prompt containing:
+`ClinicalTrialDataAgent` constructs a prompt containing:
 
-1. The clinical variable names.
-2. Their dataset labels.
-3. Additional context where required.
-4. Values observed in the current dataset.
-5. The reviewer's natural-language question.
-6. The required structured output format.
+- The clinical dataset schema.
+- Relevant variable labels.
+- Additional context where required.
+- Values observed in the current dataset.
+- The reviewer's natural-language question.
+- The required structured output format.
 
-A live implementation would send this prompt to an LLM such as OpenAI
-through an appropriate client or framework.
+A live implementation would send this prompt to an LLM.
 
 For this assessment, the LLM response is mocked. The mock represents the
-structured response that would normally be returned by the external LLM.
+structured JSON that would normally be returned by the external LLM.
 
 For example:
 
@@ -87,10 +76,89 @@ For example:
     "target_column": "AESEV",
     "filter_value": "MODERATE"
 }
+```
 
-## Running the Solution ## Run from Terminal
+The mocked response then passes through the same parsing, validation and Pandas
+execution stages that would be used with a live LLM response.
 
-From the `question_6_genai` directory:
+## Query Execution
+
+Structured output is validated before execution.
+
+Filtering is performed using Pandas with case-insensitive character
+comparisons.
+
+The result contains:
+
+- The number of unique matching subjects.
+- A list of the matching `USUBJID` values.
+
+The returned count therefore represents subjects rather than adverse event
+records.
+
+## Multiple-Filter Extension
+
+The solution additionally supports questions requiring more than one filter.
+
+For example:
+
+> Which subjects on Placebo had Severe adverse events?
+
+can be represented as:
+
+```json
+{
+    "filters": [
+        {
+            "target_column": "TRT01A",
+            "filter_value": "Placebo"
+        },
+        {
+            "target_column": "AESEV",
+            "filter_value": "SEVERE"
+        }
+    ]
+}
+```
+
+Multiple filters are applied using AND logic.
+
+This extends the required single-filter functionality to support more realistic
+clinical safety questions.
+
+## Example Tests
+
+`programs/test_agent.py` demonstrates three scenarios:
+
+1. A valid query for a value not observed in the dataset (`FATAL` severity),
+   resulting in zero matching subjects.
+2. A standard single-filter query for subjects experiencing `HEADACHE`.
+3. A compound query for subjects on `Placebo` who experienced `SEVERE`
+   adverse events.
+
+These demonstrate the complete:
+
+**Prompt → Mock LLM Response → Parse → Execute**
+
+workflow.
+
+## Running the Solution
+
+From the `question_6_genai` directory, run:
 
 ```bash
-python3 programs/test_agent.py 
+python3 programs/test_agent.py
+```
+
+The script prints the question, mocked structured output, parsed filters,
+unique subject count and matching subject identifiers for each test.
+
+## Requirements
+
+Python 3 with:
+
+```text
+pandas
+```
+
+No external LLM API key is required for the submitted mocked implementation.
