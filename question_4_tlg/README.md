@@ -38,7 +38,7 @@ groups.
 
 Output:
 
-`output/ae_severity_by_treatment.png`
+`output/output/ae_severity_distribution.png`
 
 **Top 10 Adverse Events**
 
@@ -81,7 +81,7 @@ question_4_tlg/
 │
 └── output/
     ├── ae_summary_table.html
-    ├── ae_severity_by_treatment.png
+    ├── output/ae_severity_distribution.png
     ├── top_10_ae_incidence.png
     └── ae_listings.html
 ```
