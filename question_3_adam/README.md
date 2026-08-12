@@ -26,6 +26,9 @@ The program derives the variables requested in the assessment:
   - `1`
   - `2`
   - `3`
+  
+- `TRT01P` – planned treatment for Period 01, derived from `DM.ARM`
+- `TRT01A` – actual treatment for Period 01, derived from `DM.ACTARM`
 
 - `TRTSDTM` – datetime of first valid treatment exposure
 - `TRTSTMF` – treatment start time imputation flag
