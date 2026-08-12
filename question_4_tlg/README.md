@@ -38,7 +38,7 @@ groups.
 
 Output:
 
-`output/output/ae_severity_distribution.png`
+`output/ae_severity_distribution.png`
 
 **Top 10 Adverse Events**
 
