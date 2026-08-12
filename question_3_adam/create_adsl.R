@@ -26,7 +26,6 @@ ae <- pharmaversesdtm::ae
 # ADSL contains one record per subject.
 adsl <- dm
 
-
 #################################################
 # Derive age groups
 #################################################
@@ -428,3 +427,69 @@ stopifnot(
       adsl$CARPOPFL == "Y"
   )
 )
+
+#################################################
+# Labels
+#################################################
+
+attr(adsl$ITTFL, "label")   <- "Intent-To-Treat Population Flag"
+attr(adsl$TRTSDT, "label")  <- "Date of First Exposure to Treatment"
+attr(adsl$TRTSDTM, "label") <- "Datetime of First Exposure to Treatment"
+attr(adsl$TRTSTMF, "label") <- "Time of First Exposure Imput. Flag"
+attr(adsl$TRTEDT, "label")  <- "Date of Last Exposure to Treatment"
+attr(adsl$TRTEDTM, "label") <- "Datetime of Last Exposure to Treatment"
+attr(adsl$TRTETMF, "label") <- "Time of Last Exposure Imput. Flag"
+attr(adsl$AGEGR9, "label")    <- "Age Group"
+attr(adsl$AGEGR9N, "label")   <- "Age Group (N)"
+attr(adsl$ABNSBPFL, "label")  <- "Abnormal Systolic BP Flag"
+attr(adsl$CARPOPFL, "label")  <- "Cardiac AE Population Flag"
+attr(adsl$LSTALVDT, "label")  <- "Date Last Known Alive"
+
+#################################################
+# Final ADSL structure
+#################################################
+
+adsl <- adsl %>%
+  select(
+    # Identifiers
+    STUDYID,
+    USUBJID,
+    SUBJID,
+    SITEID,
+    
+    # Population flags
+    ITTFL,
+    ABNSBPFL,
+    CARPOPFL,
+    
+    # Demographics and subject characteristics
+    AGE,
+    AGEU,
+    AGEGR9,
+    AGEGR9N,
+    SEX,
+    RACE,
+    ETHNIC,
+    COUNTRY,
+    
+    # Treatment assignment
+    ARMCD,
+    ARM,
+    ACTARMCD,
+    ACTARM,
+    ARMNRS,
+    ACTARMUD,
+    
+    # Treatment dates and times
+    TRTSDT,
+    TRTSDTM,
+    TRTSTMF,
+    TRTEDT,
+    TRTEDTM,
+    TRTETMF,
+    
+    # Death / important subject dates
+    DTHDTC,
+    DTHFL,
+    LSTALVDT
+  )
