@@ -47,6 +47,15 @@ adsl <- adsl %>%
     )
   )
 
+#################################################
+# Derive treatment variables
+#################################################
+
+adsl <- adsl %>%
+  mutate(
+    TRT01P = ARM,
+    TRT01A = ACTARM
+  )
 
 #################################################
 # Prepare exposure data
@@ -441,6 +450,8 @@ attr(adsl$TRTEDTM, "label") <- "Datetime of Last Exposure to Treatment"
 attr(adsl$TRTETMF, "label") <- "Time of Last Exposure Imput. Flag"
 attr(adsl$AGEGR9, "label")    <- "Age Group"
 attr(adsl$AGEGR9N, "label")   <- "Age Group (N)"
+attr(adsl$TRT01P, "label") <- "Planned Treatment for Period 01"
+attr(adsl$TRT01A, "label") <- "Actual Treatment for Period 01"
 attr(adsl$ABNSBPFL, "label")  <- "Abnormal Systolic BP Flag"
 attr(adsl$CARPOPFL, "label")  <- "Cardiac AE Population Flag"
 attr(adsl$LSTALVDT, "label")  <- "Date Last Known Alive"
@@ -479,6 +490,8 @@ adsl <- adsl %>%
     ACTARM,
     ARMNRS,
     ACTARMUD,
+    TRT01P,
+    TRT01A,
     
     # Treatment dates and times
     TRTSDT,

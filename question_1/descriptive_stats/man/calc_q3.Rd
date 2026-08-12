@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc_q3.R
 \name{calc_q3}
 \alias{calc_q3}
-\title{Calculate third quartile}
+\title{Calculate the third quartile (Q3)}
 \usage{
 calc_q3(x)
 }
@@ -10,15 +10,16 @@ calc_q3(x)
 \item{x}{A numeric vector.}
 }
 \value{
-The third quartile of `x`. Returns `NA` for an empty vector
-  or when all values are missing.
+A single numeric value representing the third quartile of the
+  input vector. Returns `NA_real_` if the input is empty or all values
+  are missing after removing `NA`s and `NaN`s.
 }
 \description{
-Calculates the third quartile (Q3) of a numeric vector.
+Calculates the third quartile (Q3) of a numeric vector using the
+3n/4 + 1 position method with linear interpolation.
 Missing values and `NaN` values are excluded from the calculation.
 }
 \examples{
-calc_q3(c(1, 2, 3, 4, 5))
-calc_q3(c(1, 2, NA, 4))
-
+calc_q3(c(1, 2, 2, 3, 4, 5, 5, 5, 6, 10))
+calc_q3(c(1, 2, NA, 4, 5))
 }
