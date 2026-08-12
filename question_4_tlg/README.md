@@ -81,7 +81,7 @@ question_4_tlg/
 │
 └── output/
     ├── ae_summary_table.html
-    ├── output/ae_severity_distribution.png
+    ├── ae_severity_distribution.png
     ├── top_10_ae_incidence.png
     └── ae_listings.html
 ```
